@@ -1,0 +1,6 @@
+# Apple files
+.DS_store
+
+# Data file
+data.csv
+
