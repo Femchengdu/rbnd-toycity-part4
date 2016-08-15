@@ -17,6 +17,25 @@ class Product < Udacidata
     @price = opts[:price]
   end
 
+  # Create method
+  def self.create attributes = nil
+    # set the file path
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    # create the product object
+    product_object = Product.new(attributes)
+    # check if the entry exists
+    if CSV.read(file, headers: true).include? [:id, :brand, :name, :price]
+      #Return product object
+      product_object
+    else
+      # save the product object
+      CSV.open(file, 'a') do |csv|
+        csv << [:id, :brand, :name, :price]
+      end
+      product_object
+    end
+  end
+
   private
 
     # Reads the last line of the data file, and gets the id if one exists
@@ -31,5 +50,4 @@ class Product < Udacidata
     def auto_increment
       @@count_class_instances += 1
     end
-
 end
