@@ -36,6 +36,16 @@ class Product < Udacidata
     end
   end
 
+  # List all the products
+  def self.all
+    # Set the file path (Not dry)
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    # Read all entries from the database
+    products_array = CSV.read(file)
+  end
+
+
+
   private
 
     # Reads the last line of the data file, and gets the id if one exists
