@@ -56,7 +56,7 @@ class Product < Udacidata
     product_object_array
   end
 
-  # Return the first element in the products array
+  # Return the first or first n element in the products array
   def self.first n = nil
     # Get a list of all the products
     product_object_array = all
@@ -69,6 +69,7 @@ class Product < Udacidata
     end
   end
 
+  # Return the last or last n element in the products array
   def self.last n = nil
     # Get a list of all the products
     product_object_array = all
@@ -79,6 +80,14 @@ class Product < Udacidata
       #get the last product from the products array
       product_object_array.last
     end
+  end
+
+  # Find a product with id n
+  def self.find n 
+    # Get a list of all the products
+    product_object_array = all
+    # Get product object at position n-1
+    product_object_at_n = product_object_array[n - 1]
   end
 
 
