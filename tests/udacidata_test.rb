@@ -68,10 +68,10 @@ class TestUdacidata < MiniTest::Test
    end
   end
   #
-  # def test_first_n_returns_correct_number_of_products
-  #   array_of_products = Product.first(3)
-  #   assert_equal(3, array_of_products.size)
-  # end
+  def test_first_n_returns_correct_number_of_products
+   array_of_products = Product.first(3)
+   assert_equal(3, array_of_products.size)
+  end
   #
   # def test_last_method_returns_product_object
   #   product = Product.last
