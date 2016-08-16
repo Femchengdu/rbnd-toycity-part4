@@ -55,10 +55,10 @@ class TestUdacidata < MiniTest::Test
    assert_equal(data.first[0].to_i, product.id)
   end
   #
-  # def test_first_n_returns_array
-  #   array_of_products = Product.first(3)
-  #   assert_kind_of(Array, array_of_products)
-  # end
+  def test_first_n_returns_array
+   array_of_products = Product.first(3)
+   assert_kind_of(Array, array_of_products)
+  end
   #
   # def test_first_n_returns_correct_products
   #   array_of_products = Product.first(3)

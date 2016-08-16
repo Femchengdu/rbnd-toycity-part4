@@ -57,11 +57,16 @@ class Product < Udacidata
   end
 
   # Return the first element in the products array
-  def self.first
+  def self.first n = nil
     # Get a list of all the products
     product_object_array = all
-    # get the first product from the products array
-    product_object_array.first
+    if n 
+      # get the first(n) products from the products array 
+      product_object_array.first(n)
+    else
+      #get the first product from the products array
+      product_object_array.first
+    end
   end
 
 
