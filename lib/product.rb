@@ -69,6 +69,19 @@ class Product < Udacidata
     end
   end
 
+  def self.last n = nil
+    # Get a list of all the products
+    product_object_array = all
+    if n 
+      # get the last(n) products from the products array 
+      product_object_array.last(n)
+    else
+      #get the last product from the products array
+      product_object_array.last
+    end
+  end
+
+
 
 
   private
