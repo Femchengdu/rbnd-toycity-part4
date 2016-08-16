@@ -24,13 +24,13 @@ class Product < Udacidata
     # create the product object
     product_object = Product.new(attributes)
     # check if the entry exists
-    if CSV.read(file, headers: true).include? [:id, :brand, :name, :price]
+    if CSV.read(file).include? [product_object.id, product_object.brand, product_object.name, product_object.price]
       #Return product object
       product_object
     else
       # save the product object
       CSV.open(file, 'a') do |csv|
-        csv << [:id, :brand, :name, :price]
+        csv << [product_object.id, product_object.brand, product_object.name, product_object.price ]
       end
       product_object
     end
@@ -40,8 +40,20 @@ class Product < Udacidata
   def self.all
     # Set the file path (Not dry)
     file = File.dirname(__FILE__) + "/../data/data.csv"
-    # Read all entries from the database
-    products_array = CSV.read(file)
+    # Empty product object array
+    product_object_array = []
+    # Read the database with headers option set to ture
+    products_array = CSV.read(file, headers: true)
+    # Using each to iterate through the records
+    products_array.each do |product_row|
+      # Set the product attributes
+      attributes = {id: product_row['id'].to_i, brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_i}
+      # Create product object
+      product_object = Product.create attributes
+      # Add to product objects array
+      product_object_array << product_object
+    end
+    product_object_array
   end
 
 
