@@ -56,6 +56,14 @@ class Product < Udacidata
     product_object_array
   end
 
+  # Return the first element in the products array
+  def self.first
+    # Get a list of all the products
+    product_object_array = all
+    # get the first product from the products array
+    product_object_array.first
+  end
+
 
 
   private
