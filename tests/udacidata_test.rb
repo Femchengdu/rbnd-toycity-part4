@@ -89,10 +89,10 @@ class TestUdacidata < MiniTest::Test
    assert_kind_of(Array, array_of_products)
   end
   #
-  # def test_last_n_returns_correct_number_of_products
-  #   array_of_products = Product.last(3)
-  #   assert_equal(3, array_of_products.size)
-  # end
+  def test_last_n_returns_correct_number_of_products
+   array_of_products = Product.last(3)
+   assert_equal(3, array_of_products.size)
+  end
   #
   # def test_find_method_returns_correct_product
   #   product = Product.find(5)
