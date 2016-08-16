@@ -90,28 +90,25 @@ class Product < Udacidata
     product_object_at_n = product_object_array[n - 1]
   end
 
-  # Destroy method
   def self.destroy n
     # Set the file path (Not dry)
     file = File.dirname(__FILE__) + "/../data/data.csv"
-    # Read the database with headers option set to ture
-    products_array = CSV.read(file, headers: true)
-    # Delete directly from the database
-    destroyed_record = products_array.delete n - 1
+    # Get list of product objects
+    products = all
+    # Delete from the product objects array
+    destroyed_record = products.delete_at n - 1
     # Wipe the database and run the create method with the new array
     CSV.open(file, "wb") do |csv|
       csv << ["id", "brand", "product", "price"]
     end
-    products_array.each do |product_row|
-      # Create product attributes with the remaining data without id
-      attributes = {brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_i}
-      # Create product object for each attribute
+    products.each do |product_row|
+      # Create product attributes hash without id
+      attributes = {brand: product_row.brand, name: product_row.name, price: product_row.price.to_i}
+      # Recreate product objects from the attributes hash
       product_object = Product.create attributes
     end
+    return destroyed_record
   end
-
-
-
 
   private
 

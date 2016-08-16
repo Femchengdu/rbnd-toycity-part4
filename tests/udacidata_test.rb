@@ -111,10 +111,10 @@ class TestUdacidata < MiniTest::Test
    assert_equal(before - 1, after)
   end
   #
-  # def test_destroy_method_returns_deleted_product
-  #   product = Product.destroy(7)
-  #   assert_equal(7, product.id)
-  # end
+  def test_destroy_method_returns_deleted_product
+   product = Product.destroy(7)
+   assert_equal(7, product.id)
+  end
   #
   # def test_find_by_brand_method_returns_first_product_with_given_brand
   #   Product.create(brand: "OritToys", name: "Sticky Notes", price: 34.00)
