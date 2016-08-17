@@ -47,7 +47,7 @@ class Product < Udacidata
     # Using each to iterate through the records
     products_array.each do |product_row|
       # Set the product attributes
-      attributes = {id: product_row['id'].to_i, brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_i}
+      attributes = {id: product_row['id'].to_i, brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_f}
       # Create product object
       product_object = Product.create attributes
       # Add to product objects array
@@ -124,6 +124,41 @@ class Product < Udacidata
     products = all
     products.select {|product| product.brand == n}
   end
+
+  # Update product attributes
+  def update n
+    # Set the file path (Not dry)
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    # Get and set the product attributes
+    update_product_id = self.id
+    update_product_brand = n[:brand] || self.brand
+    update_product_name = n[:name] || self.name
+    update_product_price = n[:price] || self.price.to_f
+    # Create attributes hash
+    update_attributes = {id: update_product_id, brand: update_product_brand, name: update_product_name, price: update_product_price}
+    # Create a new product based off the attributes hash
+    updated_product = Product.new update_attributes
+    # Get a list of all the products from the database
+    products = Product.all
+    # Update the list of procuts
+    updated_products = products.select {|product| 
+      product == products[update_product_id -1] ? updated_product : product
+    }
+    # Wipe the database
+    CSV.open(file, "wb") do |csv|
+      csv << ["id", "brand", "product", "price"]
+    end
+    # Write the updated list to the database
+    updated_products.each do |product_row|
+      # Using the auto incriment fuction, hopefully the database is intact.
+      # Create product attributes hash without id
+      attributes = {brand: product_row.brand, name: product_row.name, price: product_row.price.to_i}
+      # Recreate product objects from the attributes hash
+      product_object = Product.create attributes
+    end
+    updated_product
+  end
+
 
   private
 
