@@ -116,11 +116,11 @@ class TestUdacidata < MiniTest::Test
    assert_equal(7, product.id)
   end
   #
-  # def test_find_by_brand_method_returns_first_product_with_given_brand
-  #   Product.create(brand: "OritToys", name: "Sticky Notes", price: 34.00)
-  #   product = Product.find_by_brand("OritToys")
-  #   assert_equal("OritToys", product.brand)
-  # end
+   def test_find_by_brand_method_returns_first_product_with_given_brand
+     Product.create(brand: "OritToys", name: "Sticky Notes", price: 34.00)
+     product = Product.find_by_brand("OritToys")
+     assert_equal("OritToys", product.brand)
+   end
   #
   # def test_find_by_name_method_returns_first_product_with_given_name
   #   Product.create(brand: "OritToys", name: "Nyan Cat", price: 3.00)

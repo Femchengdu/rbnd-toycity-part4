@@ -110,6 +110,11 @@ class Product < Udacidata
     return destroyed_record
   end
 
+  def self.find_by_brand n
+    products = all
+    products.find {|product| product.brand == n}
+  end
+
   private
 
     # Reads the last line of the data file, and gets the id if one exists
