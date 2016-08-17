@@ -89,7 +89,7 @@ class Product < Udacidata
     # Get product object at position n-1
     product_object_at_n = product_object_array[n - 1]
   end
-
+  # destroy a product with id n
   def self.destroy n
     # Set the file path (Not dry)
     file = File.dirname(__FILE__) + "/../data/data.csv"
@@ -109,15 +109,20 @@ class Product < Udacidata
     end
     return destroyed_record
   end
-
+  # Find a product with brand name n
   def self.find_by_brand n
     products = all
     products.find {|product| n == product.brand}
   end
-
+  # Find a product with name n
   def self.find_by_name n
     products = all
     products.find {|product| n == product.name}
+  end
+  # Find all products with brand n
+  def self.where n
+    products = all
+    products.select {|product| product.brand == n}
   end
 
   private
