@@ -49,7 +49,7 @@ class Product < Udacidata
       # Set the product attributes
       attributes = {id: product_row['id'].to_i, brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_f}
       # Create product object
-      product_object = Product.create attributes
+      product_object = Product.new attributes
       # Add to product objects array
       product_object_array << product_object
     end
@@ -103,7 +103,7 @@ class Product < Udacidata
     end
     products.each do |product_row|
       # Create product attributes hash without id
-      attributes = {brand: product_row.brand, name: product_row.name, price: product_row.price.to_i}
+      attributes = {brand: product_row.brand, name: product_row.name, price: product_row.price.to_f}
       # Recreate product objects from the attributes hash
       product_object = Product.create attributes
     end
@@ -129,6 +129,8 @@ class Product < Udacidata
   def update n
     # Set the file path (Not dry)
     file = File.dirname(__FILE__) + "/../data/data.csv"
+    # Get a list of all the products from the database
+    products = Product.all
     # Get and set the product attributes
     update_product_id = self.id
     update_product_brand = n[:brand] || self.brand
@@ -137,22 +139,17 @@ class Product < Udacidata
     # Create attributes hash
     update_attributes = {id: update_product_id, brand: update_product_brand, name: update_product_name, price: update_product_price}
     # Create a new product based off the attributes hash
-    updated_product = Product.new update_attributes
-    # Get a list of all the products from the database
-    products = Product.all
+    updated_product = Product.new update_attributes    
     # Update the list of procuts
-    updated_products = products.select {|product| 
-      product == products[update_product_id -1] ? updated_product : product
-    }
-    # Wipe the database
+    updated_products = products.collect {|product| (product.id == updated_product.id) ? updated_product : product}
+    # Wipe the database 
     CSV.open(file, "wb") do |csv|
       csv << ["id", "brand", "product", "price"]
     end
     # Write the updated list to the database
     updated_products.each do |product_row|
-      # Using the auto incriment fuction, hopefully the database is intact.
-      # Create product attributes hash without id
-      attributes = {brand: product_row.brand, name: product_row.name, price: product_row.price.to_i}
+      # Create product attributes hash with id
+      attributes = {id: product_row.id, brand: product_row.brand, name: product_row.name, price: product_row.price.to_f}
       # Recreate product objects from the attributes hash
       product_object = Product.create attributes
     end
