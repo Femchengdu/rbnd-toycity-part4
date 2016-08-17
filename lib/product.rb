@@ -112,7 +112,12 @@ class Product < Udacidata
 
   def self.find_by_brand n
     products = all
-    products.find {|product| product.brand == n}
+    products.find {|product| n == product.brand}
+  end
+
+  def self.find_by_name n
+    products = all
+    products.find {|product| n == product.name}
   end
 
   private
