@@ -22,4 +22,11 @@ module Analyzable
   	brand_count
   end
 
+  def count_by_name name_array
+  	count_hash = Hash.new 0
+  	name_array.each do |product|
+  		count_hash[product.name] += 1
+  	end
+  	count_hash
+  end
 end

@@ -117,9 +117,13 @@ class Udacidata
   end
 
   # Find all products with brand n
-  def self.where n
-    products = all
-    products.select {|product| product.brand == n[:brand]}
+  def self.where option_hash
+     products = all
+    if option_hash[:name]
+      products.select {|product| product.send(:name) == option_hash[:name]}
+    else
+      products.select {|product| product.send(:brand) == option_hash[:brand]}
+    end
   end
 
 
