@@ -119,7 +119,7 @@ class Udacidata
   # Find all products with brand n
   def self.where n
     products = all
-    products.select {|product| product.brand == n}
+    products.select {|product| product.brand == n[:brand]}
   end
 
 
