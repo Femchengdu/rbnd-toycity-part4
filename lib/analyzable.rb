@@ -7,4 +7,9 @@ module Analyzable
   	total_price = product_price_array.inject {|memo, price| memo + price}
   	ave_pri = (total_price / product_price_array.length).round(2)
   end
+
+  # Print report
+  def print_report products_array
+  	report = products_array.to_s
+  end
 end
