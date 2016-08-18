@@ -24,7 +24,7 @@ class Udacidata
     end
   end
 
-  # Set the file path (Not dry)
+  # Get all the product objects from the database
   def self.all
   	# Set the file path (Not dry)
     file = File.dirname(__FILE__) + "/../data/data.csv"
@@ -153,5 +153,4 @@ class Udacidata
     end
     updated_product
   end
-
 end
