@@ -12,4 +12,14 @@ module Analyzable
   def print_report products_array
   	report = products_array.to_s
   end
+
+
+  def count_by_brand brand_array
+  	brand_count = Hash.new 0
+  	brand_array.each do |product|
+  		brand_count[product.brand] += 1
+  	end
+  	brand_count
+  end
+
 end
