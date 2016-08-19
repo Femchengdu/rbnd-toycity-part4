@@ -78,7 +78,11 @@ class Udacidata
     # Get a list of all the products
     product_object_array = all
     # Get product object at position n-1
-    product_object_at_n = product_object_array[n - 1]
+    if n - 1 > product_object_array.length
+      raise UdaciDataErrors::ProductNotFoundError, "Invalid product ID"
+    else
+      product_object_at_n = product_object_array[n - 1]
+    end
   end
 
 
@@ -89,7 +93,11 @@ class Udacidata
     # Get list of product objects
     products = all
     # Delete from the product objects array
-    destroyed_record = products.delete_at n - 1
+    if n - 1 > products.length
+      raise UdaciDataErrors::ProductNotFoundError, "Invalid product ID"
+    else
+      destroyed_record = products.delete_at n - 1
+    end
     # Wipe the database and run the create method with the new array
     CSV.open(file, "wb") do |csv|
       csv << ["id", "brand", "product", "price"]
