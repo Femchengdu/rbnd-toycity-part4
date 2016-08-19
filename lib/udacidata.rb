@@ -12,13 +12,13 @@ class Udacidata
     # create the product object
     product_object = self.new(attributes)
     # check if the entry exists
-    if CSV.read(file).include? [product_object.id, product_object.brand, product_object.name, product_object.price]
+    if CSV.read(file).include? [attributes[:id], attributes[:brand], attributes[:name], (attributes[:price]).to_s]
       #Return product object
       product_object
     else
       # save the product object
       CSV.open(file, 'a') do |csv|
-        csv << [product_object.id, product_object.brand, product_object.name, product_object.price ]
+        csv << [product_object.id, product_object.brand, product_object.name, product_object.price]
       end
       product_object
     end
@@ -32,7 +32,7 @@ class Udacidata
     product_object_array = []
     # Read the database with headers option set to ture
     products_array = CSV.read(file, headers: true)
-    # Using each to iterate through the records
+    # Using each to iterate through the records   
     products_array.each do |product_row|
       # Set the product attributes
       attributes = {id: product_row['id'].to_i, brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_f}
@@ -40,7 +40,7 @@ class Udacidata
       product_object = self.new attributes
       # Add to product objects array
       product_object_array << product_object
-    end
+    end   
     product_object_array
   end
 
@@ -111,18 +111,8 @@ class Udacidata
     return destroyed_record
   end
 
-
-  # Find a product with brand name n
-  def self.find_by_brand n
-    products = all
-    products.find {|product| n == product.brand}
-  end
-
-  # Find a product with name n
-  def self.find_by_name n
-    products = all
-    products.find {|product| n == product.name}
-  end
+  # create the finder methods
+  create_finder_methods :brand, :name
 
   # Find all products with brand n
   def self.where option_hash
