@@ -87,14 +87,18 @@ class Udacidata
 
   # destroy a product with id n
   def self.destroy n
+    # Find record to destroy
     destroyed_record = find n
+    # Destroy the record
     data_table = CSV.table(@@data_path)
     data_table.delete_if do |row|
       row[:id] == n
     end
+    # Write back to the datbase
     File.open(@@data_path, 'w') do |f|
     f.write(data_table.to_csv)
     end
+    # Return destroyed record
       return destroyed_record
   end
 
@@ -114,30 +118,10 @@ class Udacidata
 
   # Update product attributes
   def update n
-    # Get a list of all the products from the database
-    products = Product.all
-    # Get and set the product attributes
-    update_product_id = self.id
-    update_product_brand = n[:brand] || self.brand
-    update_product_name = n[:name] || self.name
-    update_product_price = n[:price] || self.price.to_f
-    # Create attributes hash
-    update_attributes = {id: update_product_id, brand: update_product_brand, name: update_product_name, price: update_product_price}
-    # Create a new product based off the attributes hash
-    updated_product = Product.new update_attributes    
-    # Update the list of procuts
-    updated_products = products.collect {|product| (product.id == updated_product.id) ? updated_product : product}
-    # Wipe the database 
-    CSV.open(@@data_path, "wb") do |csv|
-      csv << ["id", "brand", "product", "price"]
-    end
-    # Write the updated list to the database
-    updated_products.each do |product_row|
-      # Create product attributes hash with id
-      attributes = {id: product_row.id, brand: product_row.brand, name: product_row.name, price: product_row.price.to_f}
-      # Recreate product objects from the attributes hash
-      product_object = Product.create attributes
-    end
-    updated_product
+    Product.destroy(id)
+    updated_brand = n[:brand] ? n[:brand] : brand
+    updated_name = n[:name] ? n[:name] : name
+    updated_price = n[:price] ? n[:price] : price
+    Product.create(id: id, brand: updated_brand, name: updated_name, price: updated_price)    
   end
 end
