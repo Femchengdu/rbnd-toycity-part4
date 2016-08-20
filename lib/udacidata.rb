@@ -6,13 +6,21 @@ class Udacidata
   # Your code goes here!
   @@data_path = File.dirname(__FILE__) + "/../data/data.csv"
 
+  def self.get_data_id 
+    database_id_array = []
+    CSV.foreach(@@data_path, headers: true) do |row| 
+      database_id_array << row['id']
+    end
+    database_id_array
+  end
+
+
   # Create method
   def self.create attributes = nil
     # create the product object
     product_object = self.new(attributes)
-    # check if the entry exists
-    if CSV.read(@@data_path).include? [attributes[:id], attributes[:brand], attributes[:name], (attributes[:price]).to_s]
-      #Return product object
+      #Get list of database id's and check if object id is included in the database
+    if get_data_id.include? product_object.id
       product_object
     else
       # save the product object
