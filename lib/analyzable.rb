@@ -10,7 +10,20 @@ module Analyzable
 
   # Print report
   def print_report products_array
-  	report = products_array.to_s
+    report_array = [] 
+    report_array << "Average Price: #{average_price products_array}"
+   
+
+    report_array << "Inventory by Brand:"
+    count_by_brand(products_array).each do |key, value|
+      report_array << "  - #{key}: #{value}"
+    end
+
+    report_array << "Inventory by Name:"
+    count_by_name(products_array).each do |key, value|
+      report_array << "  - #{key}: #{value}"
+    end
+    report_array.join("\n")
   end
 
 

@@ -28,6 +28,7 @@ include Analyzable
  puts "RETURN ALL PRODUCTS"
  puts "-------------------"
  print Product.all
+
 #
  puts
  puts "--------------------------------------------------------------"
