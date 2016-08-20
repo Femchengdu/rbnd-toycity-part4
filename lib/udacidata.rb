@@ -4,20 +4,19 @@ require 'csv'
 
 class Udacidata
   # Your code goes here!
+  @@data_path = File.dirname(__FILE__) + "/../data/data.csv"
 
   # Create method
   def self.create attributes = nil
-    # set the file path
-    file = File.dirname(__FILE__) + "/../data/data.csv"
     # create the product object
     product_object = self.new(attributes)
     # check if the entry exists
-    if CSV.read(file).include? [attributes[:id], attributes[:brand], attributes[:name], (attributes[:price]).to_s]
+    if CSV.read(@@data_path).include? [attributes[:id], attributes[:brand], attributes[:name], (attributes[:price]).to_s]
       #Return product object
       product_object
     else
       # save the product object
-      CSV.open(file, 'a') do |csv|
+      CSV.open(@@data_path, 'a') do |csv|
         csv << [product_object.id, product_object.brand, product_object.name, product_object.price]
       end
       product_object
@@ -26,12 +25,10 @@ class Udacidata
 
   # Get all the product objects from the database
   def self.all
-  	# Set the file path (Not dry)
-    file = File.dirname(__FILE__) + "/../data/data.csv"
     # Empty product object array
     product_object_array = []
     # Read the database with headers option set to ture
-    products_array = CSV.read(file, headers: true)
+    products_array = CSV.read(@@data_path, headers: true)
     # Using each to iterate through the records   
     products_array.each do |product_row|
       # Set the product attributes
@@ -88,8 +85,6 @@ class Udacidata
 
   # destroy a product with id n
   def self.destroy n
-    # Set the file path (Not dry)
-    file = File.dirname(__FILE__) + "/../data/data.csv"
     # Get list of product objects
     products = all
     # Delete from the product objects array
@@ -99,7 +94,7 @@ class Udacidata
       destroyed_record = products.delete_at n - 1
     end
     # Wipe the database and run the create method with the new array
-    CSV.open(file, "wb") do |csv|
+    CSV.open(@@data_path, "wb") do |csv|
       csv << ["id", "brand", "product", "price"]
     end
     products.each do |product_row|
@@ -127,8 +122,6 @@ class Udacidata
 
   # Update product attributes
   def update n
-    # Set the file path (Not dry)
-    file = File.dirname(__FILE__) + "/../data/data.csv"
     # Get a list of all the products from the database
     products = Product.all
     # Get and set the product attributes
@@ -143,7 +136,7 @@ class Udacidata
     # Update the list of procuts
     updated_products = products.collect {|product| (product.id == updated_product.id) ? updated_product : product}
     # Wipe the database 
-    CSV.open(file, "wb") do |csv|
+    CSV.open(@@data_path, "wb") do |csv|
       csv << ["id", "brand", "product", "price"]
     end
     # Write the updated list to the database
