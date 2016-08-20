@@ -20,7 +20,8 @@ class Udacidata
     # create the product object
     product_object = self.new(attributes)
       #Get list of database id's and check if object id is included in the database
-    if get_data_id.include? product_object.id
+
+    if get_data_id.include? product_object.id.to_s
       product_object
     else
       # save the product object
@@ -76,7 +77,7 @@ class Udacidata
     # Get a list of all the products
     product_object_array = all
     # Get product object at position n-1
-    if n - 1 > product_object_array.length
+    if !get_data_id.include? n.to_s
       raise UdaciDataErrors::ProductNotFoundError, "Invalid product ID"
     else
       product_object_at_n = product_object_array[n - 1]
@@ -86,25 +87,15 @@ class Udacidata
 
   # destroy a product with id n
   def self.destroy n
-    # Get list of product objects
-    products = all
-    # Delete from the product objects array
-    if n - 1 > products.length
-      raise UdaciDataErrors::ProductNotFoundError, "Invalid product ID"
-    else
-      destroyed_record = products.delete_at n - 1
+    destroyed_record = find n
+    data_table = CSV.table(@@data_path)
+    data_table.delete_if do |row|
+      row[:id] == n
     end
-    # Wipe the database and run the create method with the new array
-    CSV.open(@@data_path, "wb") do |csv|
-      csv << ["id", "brand", "product", "price"]
+    File.open(@@data_path, 'w') do |f|
+    f.write(data_table.to_csv)
     end
-    products.each do |product_row|
-      # Create product attributes hash without id
-      attributes = {brand: product_row.brand, name: product_row.name, price: product_row.price.to_f}
-      # Recreate product objects from the attributes hash
-      product_object = Product.create attributes
-    end
-    return destroyed_record
+      return destroyed_record
   end
 
   # create the finder methods
