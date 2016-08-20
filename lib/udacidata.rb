@@ -36,15 +36,8 @@ class Udacidata
     # Empty product object array
     product_object_array = []
     # Read the database with headers option set to ture
-    products_array = CSV.read(@@data_path, headers: true)
-    # Using each to iterate through the records   
-    products_array.each do |product_row|
-      # Set the product attributes
-      attributes = {id: product_row['id'].to_i, brand: product_row['brand'], name: product_row['product'], price: product_row['price'].to_f}
-      # Create product object
-      product_object = self.new attributes
-      # Add to product objects array
-      product_object_array << product_object
+    CSV.foreach(@@data_path, headers: true) do |row|
+      product_object_array << new(id: row['id'].to_i, brand: row['brand'], name: row['product'], price: row['price'].to_f)
     end   
     product_object_array
   end
